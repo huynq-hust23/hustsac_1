@@ -169,6 +169,7 @@ struct Node* addPolynomial(struct Node* first, struct Node* second)
 	{
 		addElementLast(&fPoly,&fLastEle,first);
 	}
+	return fPoly;
 }
 
 /**
@@ -237,8 +238,43 @@ void addPolynomialToCurrentPlynomial(struct Node** target, struct Node* second)
 */
 struct Node* subtractPolynomial(struct Node* first, struct Node* second)
 {
-	// SINH VIÊN CODE TẠI ĐÂY
-	return NULL;
+Node *fPoly = NULL, *fLastEle = NULL;
+	while (first != NULL && second != NULL)
+	{
+		if (first->soMu > second->soMu)
+		{
+			addElementLast(&fPoly,&fLastEle,first);
+			first = first->next;
+		}
+		else if ( first -> soMu == second-> soMu)
+		{
+			first->heSo = first->heSo - second->heSo;
+			addElementLast(&fPoly,&fLastEle,first);
+			first = first->next;
+			second = second->next;
+		}
+		else 
+		{
+			second->heSo = -1 * second->heSo;
+			addElementLast(&fPoly,&fLastEle,second);
+			second = second->next;
+		}
+	}
+	if (first == NULL)
+	{
+		while (second != NULL)
+		{
+			second->heSo = -1 * second->heSo;
+			addElementLast(&fPoly,&fLastEle,second);
+			second = second->next;
+		}
+		
+	}
+	else
+	{
+		addElementLast(&fPoly,&fLastEle,first);
+	}
+	return fPoly;
 }
 
 /*
