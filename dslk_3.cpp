@@ -18,7 +18,7 @@ hàm cấp phát động một nút mới của danh sách và gán giá trị k
 struct Node* createNewNode(double heSo, int soMu)
 {
 	struct Node* p = (struct Node*)malloc(sizeof(struct Node));
-	p->heSo = heSo;
+	p->heSo = heSo;	
 	p->soMu = soMu;
 	p->next = NULL;
 
@@ -121,6 +121,7 @@ double calculatePolynomialValue(struct Node* head, double x)
 * tham số vào gồm con trỏ ở cuối danh sách để đỡ phải duyệt
 * và con trỏ newEle trỏ tới phần tử mới được thêm
 */
+
 void addElementLast(struct Node** pHead, struct Node** pLast, struct Node* newEle)
 {
 	if (*pLast == NULL) { // danh sách đang rỗng
@@ -132,27 +133,41 @@ void addElementLast(struct Node** pHead, struct Node** pLast, struct Node* newEl
 		(*pLast) = (*pLast)->next;
 	}
 }
+
 /**
 * Hàm cộng đa thức và trả về đa thức tổng qua tên hàm (first + second)
  đa thức đầu vào là first và second KHÔNG được thay đổi
 */
 struct Node* addPolynomial(struct Node* first, struct Node* second)
 {
-	Node *fPoly = NULL;
+	Node *fPoly = NULL, *fLastEle = NULL;
 	while (first != NULL && second != NULL)
 	{
 		if (first->soMu > second->soMu)
 		{
-			Node *tmp =copyNode(first);
-			fPoly ->next = tmp;
-			fPoly = tmp;
+			addElementLast(&fPoly,&fLastEle,first);
 			first = first->next;
-
 		}
-		else if ( first->soMu == second->soMu)
+		else if ( first -> soMu == second-> soMu)
 		{
-			first->next->heSo =
+			first->heSo = first->heSo + second->heSo;
+			addElementLast(&fPoly,&fLastEle,first);
+			first = first->next;
+			second = second->next;
 		}
+		else 
+		{
+			addElementLast(&fPoly,&fLastEle,second);
+			second = second->next;
+		}
+	}
+	if (first == NULL)
+	{
+		addElementLast(&fPoly,&fLastEle,second);
+	}
+	else
+	{
+		addElementLast(&fPoly,&fLastEle,first);
 	}
 }
 
