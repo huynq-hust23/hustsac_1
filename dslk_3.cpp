@@ -138,22 +138,38 @@ void addElementLast(struct Node** pHead, struct Node** pLast, struct Node* newEl
 */
 struct Node* addPolynomial(struct Node* first, struct Node* second)
 {
-	Node *fPoly = NULL;
-	while (first != NULL && second != NULL)
-	{
-		if (first->soMu > second->soMu)
-		{
-			Node *tmp =copyNode(first);
-			fPoly ->next = tmp;
-			fPoly = tmp;
-			first = first->next;
-
-		}
-		else if ( first->soMu == second->soMu)
-		{
-			first->next->heSo =
+	struct Node* PolyAns=NULL;
+	struct Node* PolyAnsLast=NULL;
+	struct Node* p;
+	while(first!=NULL && second!=NULL){
+		if(first->soMu > second->soMu){
+			p=createNewNode(first->heSo,first->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			first=first->next;
+		}else if(first->soMu == second->soMu){
+			if(first->heSo + second->heSo!=0){
+				struct Node* p=createNewNode(first->heSo+second->heSo,first->soMu);
+				addElementLast(&PolyAns,&PolyAnsLast,p);
+			}
+			first=first->next;
+			second=second->next;
+		}else{
+			p=createNewNode(second->heSo,second->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			second=second->next;
 		}
 	}
+	while(first!=NULL){
+		p=createNewNode(first->heSo,first->soMu);
+		addElementLast(&PolyAns,&PolyAnsLast,p);
+		first=first->next;
+	}
+	while(second!=NULL){
+		p=createNewNode(second->heSo,second->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			second=second->next;
+	}
+	return PolyAns;
 }
 
 /**
@@ -223,7 +239,38 @@ void addPolynomialToCurrentPlynomial(struct Node** target, struct Node* second)
 struct Node* subtractPolynomial(struct Node* first, struct Node* second)
 {
 	// SINH VIÊN CODE TẠI ĐÂY
-	return NULL;
+		struct Node* PolyAns=NULL;
+	struct Node* PolyAnsLast=NULL;
+	struct Node* p;
+	while(first!=NULL && second!=NULL){
+		if(first->soMu > second->soMu){
+			p=createNewNode(first->heSo,first->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			first=first->next;
+		}else if(first->soMu == second->soMu){
+			if(first->heSo - second->heSo!=0){
+				struct Node* p=createNewNode(first->heSo-second->heSo,first->soMu);
+				addElementLast(&PolyAns,&PolyAnsLast,p);
+			}
+			first=first->next;
+			second=second->next;
+		}else{
+			p=createNewNode(-second->heSo,second->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			second=second->next;
+		}
+	}
+	while(first!=NULL){
+		p=createNewNode(first->heSo,first->soMu);
+		addElementLast(&PolyAns,&PolyAnsLast,p);
+		first=first->next;
+	}
+	while(second!=NULL){
+		p=createNewNode(-second->heSo,second->soMu);
+			addElementLast(&PolyAns,&PolyAnsLast,p);
+			second=second->next;
+	}
+	return PolyAns;
 }
 
 /*
@@ -233,7 +280,15 @@ struct Node* subtractPolynomial(struct Node* first, struct Node* second)
 struct Node* multiplyPolynomialWithNode(struct Node* head, struct Node* multiplier)
 {
 	// SINH VIÊN CODE TẠI ĐÂY
-	return NULL;
+	struct Node* PolyAns=NULL;
+	struct Node* PolyAnsLast=NULL;
+	struct Node* p;
+	while(head!=NULL){
+		p = createNewNode(head->heSo*multiplier->heSo , head->soMu+multiplier->soMu);
+		addElementLast(&PolyAns,&PolyAnsLast,p);
+		head = head->next;
+	}
+	return PolyAns;
 }
 
 /*
@@ -257,7 +312,15 @@ void freePolynomial(struct Node** head)
 struct Node* multiplyTwoPolynomial(struct Node* first, struct Node* second)
 {
 	// SINH VIÊN CODE TẠI ĐÂY
-	return NULL;
+	struct Node* PolyAns=NULL;
+	struct Node* p;
+	while(second!=NULL){
+		p = multiplyPolynomialWithNode(first,second);
+		PolyAns = addPolynomial(PolyAns,p);
+//		addPolynomialToCurrentPlynomial(&PolyAns,p);
+		second = second->next;
+	}
+	return PolyAns;
 }
 
 
