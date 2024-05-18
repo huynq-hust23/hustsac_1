@@ -109,13 +109,17 @@ int reduceItemQuantityByID(Item** head, char ID[],
   itemToDelete = findanItemByID(*head,ID);
   if(itemToDelete == NULL) return 0;
   else{
-    if(itemToDelete->quantity > reduceQuantity) itemToDelete->quantity -= reduceQuantity;
+    if(itemToDelete->quantity > reduceQuantity) {
+        itemToDelete->quantity -= reduceQuantity;
+        return 1;
+        }
     else{
-        if(strcmp(itemToDelete->ID,ID) == 0) {
+        if(strcmp((*head)->ID,ID) == 0) {
             (*head) = (*head)->next;
             free(itemToDelete);
             return 1;
         }
+        else {
         Item* curr;
         curr = *head;
 
@@ -125,6 +129,7 @@ int reduceItemQuantityByID(Item** head, char ID[],
         curr->next = itemToDelete->next;
         free(itemToDelete);
         return 1;
+        }
     }
   }
   return 0;
