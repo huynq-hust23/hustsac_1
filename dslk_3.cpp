@@ -113,7 +113,12 @@ void printData(struct Node* head)
 */
 double calculatePolynomialValue(struct Node* head, double x)
 {
-	return 0.0;
+	double result=0;
+	while(head!=NULL){
+		result+=head->heSo*pow(x,head->soMu);
+		head=head->next;
+	}
+	return result;
 }
 
 /*
